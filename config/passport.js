@@ -1,10 +1,6 @@
 var LocalStrategy    = require('passport-local').Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy;
-var TwitterStrategy  = require('passport-twitter').Strategy;
-var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
-
 var User       = require('../app/models/user');
-
+var Statistics = require('../app/models/statistics');
 
 module.exports = function(passport) {
 
@@ -35,6 +31,21 @@ module.exports = function(passport) {
                 if (!user.validPassword(password))
                     return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
                 else
+                    Statistics.findOne({user_id: user._id}, function(err, statistics){
+                        if(err){
+                            console.log(err);
+                            return;
+                        }
+                        if(statistics){
+                            statistics.lastLoginDate = Date.now();
+
+                            statistics.save(function(err, result){
+                                console.log("lastLoginDate updated!");
+                            });
+                        }
+                       
+                    });
+
                     return done(null, user);
             });
         });
@@ -67,6 +78,15 @@ module.exports = function(passport) {
                         newUser.save(function(err) {
                             if (err)
                                 return done(err);
+                            
+                            var stats = new Statistics();
+                            stats.dateOfRegistration = Date.now();
+                            stats.lastLoginDate = Date.now();
+                            stats.user_id = newUser._id;
+
+                            stats.save(function(err, result) {
+                                console.log("new statistics added for user: " + newUser);
+                            });
 
                             return done(null, newUser);
                         });

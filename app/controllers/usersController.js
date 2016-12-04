@@ -1,5 +1,6 @@
 var Note = require('../models/note');
 var User = require('mongoose').model('User');
+var Statistics = require('../models/statistics');
 
 module.exports = {
     deleteUser: function(req, res) {
@@ -21,6 +22,16 @@ module.exports = {
             });
         });
 
+        Statistics.find({user_id:req.params.id}, function(err, stat) {
+            stat[0].remove({_id:stat._id}, function(err, result) {
+                if(err){
+                    console.log(err);
+                }else {
+                    console.log("Statistics for user-id: " + req.params.id + " is deleted! " +result);
+                }
+            });
+        });
+        
         User.findOne({_id:req.params.id}, function(err, user){
             user.remove({_id:user._id}, function(err, data) {
                 if(err) {

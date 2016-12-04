@@ -11,7 +11,7 @@
 <body>
 <div class="container">
     <div class="page-header text-center">
-        <h1><span class="fa fa-anchor"></span> Notes Page</h1>
+        <h1><span class="fa fa-anchor"></span> Statistics Page</h1>
         <a href="/add" class="btn btn-info btn-sm">Add Note</a>
         <a href="/profile" class="btn btn-primary btn-sm">Profile</a>
         <a href="/stats" class="btn btn-default btn-sm">View Account Stats</a>
@@ -20,26 +20,11 @@
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
     </div>
     
-    <div class="row">
-        <% for(var i = 0; i < notes.length; i++){ %>
-        <div class="col-md-5">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    created on: <%=notes[i].dateCreated.toLocaleDateString() %>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <strong>Title:  <%= notes[i].title %>  </strong>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
-        <% } %>
-    </div>
 
+        <div class="jumbotron">
+            <h2>Last login date: <%= stats[0].lastLoginDate.toUTCString() %></h2>
+            <h2>Register date: <%= stats[0].dateOfRegistration.toUTCString() %></h2>
+        </div>
 </div>
 </body>
 </html>

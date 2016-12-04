@@ -12,6 +12,8 @@ module.exports = function(app, passport) {
         });
     });
 
+    app.get('/stats', isLoggedIn, controllers.stats.getAllStats);
+
     app.get('/allnotes', isLoggedIn, controllers.notes.getAllNotesAllusers)
 
     app.get('/notes',isLoggedIn, controllers.notes.getAllnotes);
