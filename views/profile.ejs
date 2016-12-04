@@ -10,15 +10,16 @@
 </head>
 <body>
 <div class="container">
-
     <div class="page-header text-center">
         <h1><span class="fa fa-anchor"></span> Profile Page</h1>
+        <a href="/add" class="btn btn-info btn-sm">Add Note</a>
+        <a href="/profile" class="btn btn-default btn-sm">Profile</a>
+        <a href="/notes" class="btn btn-default btn-sm">My notes</a>
+        <a href="/allnotes" class="btn btn-default btn-sm">View All users notes</a>
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+
     </div>
-
     <div class="row">
-
-        <!-- LOCAL INFORMATION -->
         <div class="col-sm-6">
             <div class="well">
                 <h3><span class="fa fa-user"></span> Local</h3>
@@ -30,7 +31,10 @@
                         <strong>password</strong>: <%= user.local.password %>
                     </p>
                     
-                    <a href="/unlink/local" class="btn btn-default">Unlink</a>
+                    <form action="/delete/user/<%= user._id %>" method="post" enctype='application/x-www-form-urlencoded'>
+                        <input type='hidden' value="<%= user._id%>" name='id' />
+                        <button type="submit" class="btn btn-sm btn-danger">Delete</button> 
+                    </form>
                 <% } else { %>
                     <a href="/connect/local" class="btn btn-default">Connect Local</a>
                 <% } %>
@@ -38,7 +42,6 @@
             </div>
         </div>
     </div>
-
 </div>
 </body>
 </html>
