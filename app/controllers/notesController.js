@@ -8,9 +8,18 @@ module.exports = {
                 console.log(err);
                 return;
             }
-            res.render('all-notes.ejs', {
-                notes: collection
-            });
+           User.find({}, function(err, users) {
+               if(err){
+                   console.log(err);
+                   return;
+               }
+
+                res.render('all-notes.ejs', {
+                    user_note: users,
+                    notes: collection
+                });
+           })
+           
         });
     },
     fillData: function(req, res) {
@@ -26,6 +35,7 @@ module.exports = {
                 note.title = "Test notes";
                 note.dateCreated =  Date.now();
                 note.user_id = req.user._id;
+                note.user_email = req.user.local.email;
                 note.save(function(err, data) {
                     if(err) throw err;
                     console.log("First note Added,: ", data);
@@ -103,6 +113,7 @@ module.exports = {
         note.title = data.title;
         note.dateCreated = data.dateCreated;
         note.user_id = req.user._id;
+        note.user_email = req.user.local.email;
 
         Note.create(note,function(err, insertedNote) {
             if(err) {

@@ -25,12 +25,18 @@
         <div class="col-md-5">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    created on: <%=notes[i].dateCreated.toLocaleDateString() %>
+                    <% if(notes[i].dateCreated) { %>
+                        Date: <%=notes[i].dateCreated.toLocaleDateString() %>
+                    <% } else { %>
+                        Date: no date
+                    <% } %>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <strong>Title:  <%= notes[i].title %>  </strong>
+                            <strong>Title:  <%= notes[i].title %>  </strong> <br />
+                            <strong>User:  <%= notes[i].user_email %>  </strong>
+
                         </div>
                     </div>
                     
